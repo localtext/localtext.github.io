@@ -1,0 +1,107 @@
+<meta charset="utf-8">
+<title>Локальное Хранилище Текста</title>
+
+<style>
+#form {
+	width: 90%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	flex: auto;
+
+}
+
+#form * {
+	width: 100%;
+	height: 15%;
+	font-size: 200%;
+	margin: 0.5%;
+}
+
+#form > textarea {
+	height: 20vw;
+}
+
+#text {
+	height: 500px;
+}
+
+#h1 {
+	color: orange;
+	text-decoration: underline;
+}
+#content {
+	font-size: 150%;
+}
+.block {
+	display: block;
+	background-color: #aecbcf;
+	padding: 1%;
+	margin-bottom: 1%
+}
+
+</style>
+<h1 id="h1">Локальное Хранилище Текста</h1>
+<hr/>
+
+
+<div id="form"><button id="clear">Очистить хранилище</button>
+	<textarea id="textarea" placeholder="текст для сохранения"></textarea>
+	<button id="save">Сохранить</button>
+</div>
+
+<hr/>
+<div id="content">
+</div>
+<hr/>
+
+
+
+<script>
+// get text
+
+function getText() {
+	let output = "";
+	for(var i = 0; i<localStorage.length; i++) {
+		output += localStorage.getItem(localStorage.key(i));
+	}
+	return(output);
+}
+
+// clear
+
+var clearButton = document.querySelector("#clear");
+
+function clear() {
+	localStorage.clear();
+
+	location.reload();
+}
+
+clearButton.onclick = clear;
+
+// save
+
+var content = document.querySelector("#content");
+var textarea = document.querySelector("#textarea");
+var saveButton = document.querySelector("#save");
+
+function save() {
+	var new_text;
+
+	new_text = ('<div class="block">' + textarea.value.replaceAll("\n", "<br/>") + '</div>');
+
+	
+	localStorage.setItem(crypto.randomUUID(), new_text);
+
+	location.reload();
+}
+
+saveButton.onclick = save;
+
+//wiev
+
+content.innerHTML = getText();
+
+</script>
