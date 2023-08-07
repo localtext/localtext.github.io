@@ -38,8 +38,11 @@
 	text-decoration: underline;
 }
 #content {
-	font-size: 170%;
 	padding: 0.3em;
+}
+
+#content > * {
+	font-size: 220%;
 }
 
 .card {
@@ -53,8 +56,9 @@
 }
 
 .delButton {
+	font-size: 130%;
 	align-self: flex-end;
-	font-size: 110%;
+	font-size: 70%;
 	width: 2em;
 	height: 2em;
 }
@@ -80,10 +84,10 @@
 
 // vars
 
-var content = document.querySelector("#content");
-var textarea = document.querySelector("#textarea");
-var saveButton = document.querySelector("#saveButton");
-var clearButton = document.querySelector("#clearButton");
+let content = document.querySelector("#content");
+let textarea = document.querySelector("#textarea");
+let saveButton = document.querySelector("#saveButton");
+let clearButton = document.querySelector("#clearButton");
 
 //clear
 
