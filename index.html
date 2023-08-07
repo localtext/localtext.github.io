@@ -34,11 +34,17 @@
 #content {
 	font-size: 150%;
 }
-.block {
-	display: block;
+
+.card {
+	display: flex;
+	flex-direction: column;
 	background-color: #aecbcf;
 	padding: 1%;
 	margin-bottom: 1%
+}
+
+.delButton {
+	align-self: flex-end;
 }
 
 </style>
@@ -46,21 +52,50 @@
 <hr/>
 
 
-<div id="form"><button id="clear">Очистить хранилище</button>
+<div id="form">
+	<button id="clearButton">Очистить хранилище</button>
 	<textarea id="textarea" placeholder="текст для сохранения"></textarea>
-	<button id="save">Сохранить</button>
+	<button id="saveButton">Сохранить</button>
 </div>
 
 <hr/>
 <div id="content">
 </div>
-<hr/>
 
 
 
 <script>
-// get text
 
+// vars
+
+var content = document.querySelector("#content");
+var textarea = document.querySelector("#textarea");
+var saveButton = document.querySelector("#saveButton");
+var clearButton = document.querySelector("#clearButton");
+
+//clear
+
+function clear() {
+	localStorage.clear();
+	location.reload();
+}
+clearButton.onclick = clear;
+
+//save
+function save() {
+	let new_text;
+	let cardId = crypto.randomUUID();
+
+	new_text = ('<div class="card"><button class="delButton" id="' + cardId + '">X</button>' + textarea.value.replaceAll("\n", "<br/>") + '</div>');
+	
+	localStorage.setItem(cardId, new_text);
+
+	location.reload();
+}
+
+saveButton.onclick = save;
+
+//wiev
 function getText() {
 	let output = "";
 	for(var i = 0; i<localStorage.length; i++) {
@@ -69,39 +104,19 @@ function getText() {
 	return(output);
 }
 
-// clear
-
-var clearButton = document.querySelector("#clear");
-
-function clear() {
-	localStorage.clear();
-
-	location.reload();
-}
-
-clearButton.onclick = clear;
-
-// save
-
-var content = document.querySelector("#content");
-var textarea = document.querySelector("#textarea");
-var saveButton = document.querySelector("#save");
-
-function save() {
-	var new_text;
-
-	new_text = ('<div class="block">' + textarea.value.replaceAll("\n", "<br/>") + '</div>');
-
-	
-	localStorage.setItem(crypto.randomUUID(), new_text);
-
-	location.reload();
-}
-
-saveButton.onclick = save;
-
-//wiev
-
 content.innerHTML = getText();
+
+// del
+
+function del(e) {
+	localStorage.removeItem(e.target.id);
+	location.reload();
+}
+
+let delButtons = document.querySelectorAll(".delButton");
+
+delButtons.forEach((el)=>{
+	el.onclick = del;
+});
 
 </script>
